@@ -1,0 +1,26 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Création d'unne annonce
+{% endblock %}
+
+
+{% block body %}
+    <div class="container">
+        <h1>Création d'un appart</h1>
+
+        {{ form_start(form)}}
+
+        <div class="row">
+            <div class="col col-md-5">{{ form_row(form.title)}}</div>
+            <div class="col col-md-5">{{ form_row(form.price) }}</div>
+            <div class="col col-md-5">{{ form_row(form.rooms) }}</div>
+            <div class="col col-md-5">{{ form_row(form.coverImage) }}</div>
+            <div class="col col-md-12">{{ form_row(form.content) }}</div>
+            <div class="col col-md-12">{{ form_row(form.intro) }}</div>
+
+        </div>
+
+        <button class="btn btn-success" type="submit">Créer la nouvelle annonce</button>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
