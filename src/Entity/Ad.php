@@ -6,10 +6,13 @@ use Cocur\Slugify\Slugify;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\AdRepository")
  * @ORM\HasLifecycleCallbacks
+ * @UniqueEntity(fields={"title"}, message="Une autre annonce possede ce titre merci de le modifier")
  */
 class Ad
 {
@@ -22,6 +25,7 @@ class Ad
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min=6, max=255, minMessage="Le titre est trop court il doit faire plus de 10caractére", maxMessage="Le titre est trop long il doit faire moin de 255 caractére")
      */
     private $title;
 
@@ -37,16 +41,19 @@ class Ad
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\Length(min=20, max=255, minMessage="L'introduction est trop court il doit faire plus de 20 caractére", maxMessage="L'introduction est trop long il doit faire moin de 255 caractére")
      */
     private $intro;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\Length(min=50, minMessage="La description est trop court il doit faire plus de 50caractére")
      */
     private $content;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Url()
      */
     private $coverImage;
 
@@ -56,7 +63,8 @@ class Ad
     private $rooms;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="ad", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="ad", orphanRemoval=true, cascade={"persist"})
+     * @Assert\Valid()
      */
     private $images;
 

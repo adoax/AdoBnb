@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Ad;
+use App\Entity\Image;
 use App\Form\AdType;
 use App\Repository\AdRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -44,6 +45,28 @@ class AdController extends AbstractController
         }
 
         return $this->render('ad/new.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+    /**
+     * @Route("/{slug}/edit", name="ads_edit")
+     */
+    public function edit(Request $request, Ad $ad ) {
+        $form = $this->createForm(AdType::class, $ad);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($ad);
+            $em->flush();
+
+            $this->addFlash('success', "L'article à bien étais modifier");
+
+            return $this->redirectToRoute("ads_index");
+        }
+
+        return $this->render('ad/edit.html.twig', [
+            'ad' => $ad,
             'form' => $form->createView()
         ]);
     }

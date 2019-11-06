@@ -1,17 +1,20 @@
 {% extends "base.html.twig" %}
 
-{% block title %}Création d'unne annonce
+{% block title %}
+    Edition d'unne annonce
 {% endblock %}
 
 {% form_theme form 'ad/_collection.html.twig' %}
 
 {% block body %}
     <div class="container">
-        <h1>Création d'un appart</h1>
+        <h1>Modifier l'annonce</h1>
 
-       {% include 'ad/_form.html.twig' %}
+         {% include 'ad/_form.html.twig' %}
+         
     </div>
 {% endblock %}
+
 
 {% block javascripts %}
 <script src="/js/ad.js"/>
