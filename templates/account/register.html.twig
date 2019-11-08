@@ -1,0 +1,29 @@
+{% extends "base.html.twig" %}
+
+
+{% block title %}S'enregistrer
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Création d'un compte</h1>
+
+        {{ form_start(form)}}
+
+        <div class="row">
+            <div class="col col-md-5">{{ form_row(form.firstName)}}</div>
+            <div class="col col-md-5">{{ form_row(form.lastName)}}</div>
+            <div class="col col-md-12">{{ form_row(form.email) }}</div>
+            <div class="col col-md-5">{{ form_row(form.hash.first) }}</div>
+            <div class="col col-md-5">{{ form_row(form.hash.second) }}</div>
+            <div class="col col-md-12">{{ form_row(form.picture) }}</div>
+            <div class="col col-md-12">{{ form_row(form.intro) }}</div>
+            <div class="col col-md-12">{{ form_row(form.description) }}</div>
+
+        </div>
+
+        <button class="btn btn-success" type="submit">S'enregistrer</button>
+        {{ form_end(form) }}
+
+    </div>
+{% endblock %}
