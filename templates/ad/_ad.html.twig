@@ -21,6 +21,9 @@
             <p class="card-text">
                 {{ad.intro}}</p>
             <a href="{{ url }}" class="btn btn-secondary">En savoir plus</a>
+            {% if app.user and app.user.fullName == ad.author.fullName %}
+                <a href="{{ path('ads_edit', {'slug' : ad.slug}) }}" class="btn btn-secondary">Modifier</a>
+            {% endif %}
         </div>
     </div>
 </div>

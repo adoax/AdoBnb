@@ -3,12 +3,14 @@
 namespace App\Controller;
 
 use App\Entity\Ad;
-use App\Entity\Image;
 use App\Form\AdType;
+use App\Entity\Image;
 use App\Repository\AdRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/ads")
@@ -27,6 +29,7 @@ class AdController extends AbstractController
 
     /**
      * @Route("/new", name="ads_new")
+     * @IsGranted("ROLE_USER", message="vous devez avoir un compte pour pouvoir créer une annonce !", statusCode=404)
      */
     public function create(Request $request)
     {
@@ -51,6 +54,7 @@ class AdController extends AbstractController
     }
     /**
      * @Route("/{slug}/edit", name="ads_edit")
+     * @Security("is_granted('ROLE_USER') and user === ad.getAuthor()", message="Cette annonce ne vous appartient pas, vous ne pouvez pas la modifier !")
      */
     public function edit(Request $request, Ad $ad ) {
         $form = $this->createForm(AdType::class, $ad);
@@ -80,5 +84,19 @@ class AdController extends AbstractController
         return $this->render('ad/show.html.twig', [
             'ad' => $ad
         ]);
+    }
+
+    /**
+     *
+     * @Route("/ads/{slug}/delete", name="ads_delete")
+     * 
+     * @Security("is_granted('ROLE_USER') and user === ad.getAuthor()", message="vous ne pouvez pas supprimer un article qui n'est pas a vous !")
+     */
+    public function delete(Ad $ad){
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($ad);
+        $em->flush();
+        $this->addFlash('success', "l'annonce <strong>{$ad->getTitle()}</strong> a bien été supprimé");
+        return $this->redirectToRoute('ads_index');
     }
 }

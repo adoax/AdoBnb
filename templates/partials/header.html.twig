@@ -39,9 +39,9 @@
     </div>
 </nav>
 {% for messages in app.flashes %}
-    {% for message in  messages %}
+    {% for message in  messages  %}
         <div class="alert alert-success">
-            {{ message }}
+            {{ message | raw }}
         </div>
     {% endfor %}
 {% endfor %}

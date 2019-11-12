@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Ad;
 use App\Entity\Image;
+use App\Entity\Role;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -11,7 +12,7 @@ use Faker\Factory;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AppFixtures extends Fixture
-{   
+{
 
     private $encoder;
     /**
@@ -27,6 +28,22 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         $faker = Factory::create('fr_FR');
+
+        $adminRole = new Role();
+        $adminRole->setTitle('ROLE_ADMIN');
+        $manager->persist($adminRole);
+
+        $adminUser = new User();
+        $adminUser->setFirstName('Anthony')
+            ->setLastName('seguinard')
+            ->setEmail('a@a.com')
+            ->setHash($this->encoder->encodePassword($adminUser, 'azerty'))
+            ->setPicture('https://randomuser.me/api/portraits/men/40.jpg')
+            ->setIntro($faker->sentence())
+            ->setDescription('<p>' . join('</p><p>', $faker->paragraphs(3)) . '</p>')
+            ->addUserRole($adminRole);
+        $manager->persist($adminUser);
+
         $genres = ['male', 'female'];
         //Gere les utilisateur
         for ($u = 1; $u < 10; $u++) {
@@ -36,7 +53,7 @@ class AppFixtures extends Fixture
             $picture = 'https://randomuser.me/api/portraits/';
             $pictId = $faker->numberBetween(1, 99) . '.jpg';
 
-            $picture .= ($genre == 'male' ? 'men/' :  'women/') . $pictId;
+            $picture .= ($genre == 'male' ? 'men/' : 'women/') . $pictId;
 
             $user->setFirstName($faker->firstName($genre))
                 ->setLastName($faker->lastName())
@@ -46,8 +63,8 @@ class AppFixtures extends Fixture
                 ->setDescription('<p>' . join('</p><p>', $faker->paragraphs(3)) . '</p>')
                 ->setHash($this->encoder->encodePassword($user, 'azerty'));
 
-                $manager->persist($user);
-                $users[] = $user;
+            $manager->persist($user);
+            $users[] = $user;
         }
 
         //Gere les annonces
@@ -62,7 +79,7 @@ class AppFixtures extends Fixture
                 ->setRooms(mt_rand(1, 6))
                 ->setAuthor($users[mt_rand(0, count($users) - 1)]);
 
-                ///ajout image pour chaque annonce
+            ///ajout image pour chaque annonce
             for ($j = 1; $j <= mt_rand(2, 5); $j++) {
                 $image = new Image();
 
@@ -72,7 +89,7 @@ class AppFixtures extends Fixture
 
                 $manager->persist($image);
             }
-            
+
 
             $manager->persist($ad);
         }

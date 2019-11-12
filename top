@@ -1,0 +1,35 @@
+[33mcommit 2ebbd6c0400bb768bd681eaa617a2bef45dc9950[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m
+Author: seguinard <anthony.seguinard@live.fr>
+Date:   Tue Nov 12 14:08:24 2019 +0100
+
+    Gestion des utilisateur + liaison aves le annonces
+
+[33mcommit 0d6c724bec7b9363ee52879abda9d01b094356cb[m
+Author: seguinard <anthony.seguinard@live.fr>
+Date:   Fri Nov 8 09:56:40 2019 +0100
+
+    User + register/login + update password
+
+[33mcommit 6c40f1ce8c0d07c7f0c21c461a861c31457402aa[m
+Author: seguinard <anthony.seguinard@live.fr>
+Date:   Wed Nov 6 14:48:34 2019 +0100
+
+    formulaire edition
+
+[33mcommit c5b2393885b40d91c29b8502e787ede5bc99565c[m
+Author: seguinard <anthony.seguinard@live.fr>
+Date:   Tue Nov 5 13:31:12 2019 +0100
+
+    Ajout Formulaire 'CREATE'
+
+[33mcommit 9215235ee72ea6808dabd31d93d262a924e814fa[m
+Author: seguinard <anthony.seguinard@live.fr>
+Date:   Thu Oct 31 14:06:43 2019 +0100
+
+    initialisation de la structure de la BD + fixtures
+
+[33mcommit e3354167dae201be1324e99302c17f1fdbd8e87e[m
+Author: seguinard <anthony.seguinard@live.fr>
+Date:   Wed Oct 30 18:26:56 2019 +0100
+
+    installation + page accueil

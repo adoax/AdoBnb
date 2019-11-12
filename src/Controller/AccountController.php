@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -68,6 +69,7 @@ class AccountController extends AbstractController
 
     /**
      * @Route("/account/profile", name="account_profile")
+     * @IsGranted("ROLE_USER")
      */
     public function profil(Request $request)
     {
@@ -93,6 +95,7 @@ class AccountController extends AbstractController
 
     /**
      * @Route("/account/update-password", name="account_password")
+     * @IsGranted("ROLE_USER")
      */
     public function updatePassword(Request $request,  UserPasswordEncoderInterface $encoder, UserInterface $userInterface)
     {
@@ -129,6 +132,7 @@ class AccountController extends AbstractController
      * Affiche la page de l'utilisateur connecter
      *
      * @Route("/account", name="account_index")
+     * @IsGranted("ROLE_USER")
      * @return Response
      */
     public function myAccount() {
