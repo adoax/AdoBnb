@@ -36,6 +36,7 @@ class AdController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            $ad->setAuthor($this->getUser());
             $em->persist($ad);
             $em->flush();
 

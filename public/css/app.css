@@ -17,3 +17,19 @@ div.ad-title p {
 div.carrousel-caption {
   text-shadow: 3px 3px 3px rgba(0, 0, 0, 0.5);
 }
+
+.avatar {
+  max-width: 120px;
+  max-height: 120px;
+  border-radius: 50%;
+}
+
+.avatar-meduim {
+  max-width: 64px;
+  max-height: 64px;
+}
+
+.avatar-mini {
+  max-height: 24px;
+  max-width: 24px;
+}

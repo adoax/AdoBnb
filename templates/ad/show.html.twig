@@ -57,20 +57,26 @@
                 </div>
 
             </div>
+            {% set author = ad.author %}
+            {% set urlUser = path('user_profil', {'slug' : author.slug}) %}
             <div class="col">
-                <div class="row">
-                    <div class="col-4">
-                        <img src="{{ad.author.picture}}" alt="phto de profil de anthony" ></div>
+                <div class="row mb-3 align-items-center">
+                    <div class="col-3">
+                        <a href="{{ urlUser }}">
+                            <img src="{{author.picture}}" alt="phto de profil de {{ author.fullName }}" class="avatar avatar-meduim">
+                        </a>
+                    </div>
                     <div class="col">
-                        <h3>{{ ad.author.firstName }} {{ ad.author.lastName }}
+                        <h3>
+                            <a href="{{ urlUser }}" class="text-black-50">{{ author.fullName }}</a>
+
                             <span class="badge badge-primary">
-                                3 annonces</span>
+                                {{author.ads | length}}
+                                annonce{{ author.ads | length > 1 ? 's' : ''}}</span>
                         </h3>
                     </div>
                 </div>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum earum aspernatur asperiores quod aut alias nam nostrum possimus placeat provident?</p>
-                <p>Nesciunt est non sunt hic vero error totam sed. Eius nostrum nobis placeat doloremque iusto, doloribus nulla et. Exercitationem, possimus?</p>
-                <p>Soluta, quis. Iusto, itaque necessitatibus. Illo, nisi iure? Dolor fugit necessitatibus eum dolore dignissimos ullam corrupti, recusandae magni voluptates dolorem?</p>
+                {{author.description | raw }}
             </div>
         </div>
     </div>

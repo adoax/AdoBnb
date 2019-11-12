@@ -89,10 +89,8 @@ class User implements UserInterface
      */
     public function initializeSlug()
     {
-        if (empty($this->slug)) {
             $slugify = new Slugify();
             $this->setSlug($slugify->slugify($this->firstName . ' ' . $this->lastName));
-        }
     }
 
     public function getId(): ?int
@@ -226,6 +224,11 @@ class User implements UserInterface
 
         return $this;
     }
+    
+    public function getfullName(): ?string
+    {
+        return $this->firstName . ' ' . $this->lastName;
+    }
 
     //Start UserInterface
     public function getRoles()
@@ -248,5 +251,4 @@ class User implements UserInterface
 
     public function eraseCredentials()
     { }
-    //End UserInterface
 }

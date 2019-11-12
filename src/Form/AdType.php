@@ -21,9 +21,6 @@ class AdType extends ApplicationType
     {
         $builder
             ->add('title', TextType::class, $this->getConfig("Titre", "Mettez le titre de l'annonce"))
-            ->add('slug', TextType::class, $this->getConfig("URL (non obligatoire)", "Mettez l'ur souhaiter (automatique)", [
-                'required' => false
-            ]))
             ->add('price', MoneyType::class, $this->getConfig("PRIX", "Indiquer le prix pour une nuit") + [
                 "currency" => 'EUR'
             ])

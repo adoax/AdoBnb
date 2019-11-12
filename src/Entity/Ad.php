@@ -87,10 +87,8 @@ class Ad
      */
     public function initializeSlug()
     {
-        if (empty($this->slug)) {
-            $slugify = new Slugify();
-            $this->setSlug($slugify->slugify($this->title));
-        }
+        $slugify = new Slugify();
+        $this->setSlug($slugify->slugify($this->title));
     }
 
     public function getId(): ?int
