@@ -29,6 +29,7 @@
         <h2>Les annonces de
             {{ user.fullName }}</h2>
 
+
         {% if user.ads | length %}
             <div class="row">
                 {% for ad in user.ads %}

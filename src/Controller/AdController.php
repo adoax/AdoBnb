@@ -7,6 +7,7 @@ use App\Form\AdType;
 use App\Entity\Image;
 use App\Repository\AdRepository;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -19,8 +20,9 @@ class AdController extends AbstractController
 {
     /**
      * @Route("", name="ads_index")
+     * @return Response
      */
-    public function index(AdRepository $ads)
+    public function index(AdRepository $ads): Response 
     {
         return $this->render('ad/index.html.twig', [
             'ads' => $ads->findBy([], ['id' => 'DESC']),
@@ -30,8 +32,9 @@ class AdController extends AbstractController
     /**
      * @Route("/new", name="ads_new")
      * @IsGranted("ROLE_USER", message="vous devez avoir un compte pour pouvoir créer une annonce !", statusCode=404)
+     * @return Response
      */
-    public function create(Request $request)
+    public function create(Request $request): Response 
     {
         $ad = new Ad();
         $form = $this->createForm(AdType::class, $ad);
@@ -55,8 +58,9 @@ class AdController extends AbstractController
     /**
      * @Route("/{slug}/edit", name="ads_edit")
      * @Security("is_granted('ROLE_USER') and user === ad.getAuthor()", message="Cette annonce ne vous appartient pas, vous ne pouvez pas la modifier !")
+     * @return Response
      */
-    public function edit(Request $request, Ad $ad ) {
+    public function edit(Request $request, Ad $ad ): Response  {
         $form = $this->createForm(AdType::class, $ad);
         $form->handleRequest($request);
 
@@ -78,8 +82,9 @@ class AdController extends AbstractController
 
     /**
      * @Route("/{slug}", name="ads_show")
+     * @return Response
      */
-    public function show(Ad $ad)
+    public function show(Ad $ad): Response 
     {
         return $this->render('ad/show.html.twig', [
             'ad' => $ad
@@ -91,8 +96,9 @@ class AdController extends AbstractController
      * @Route("/ads/{slug}/delete", name="ads_delete")
      * 
      * @Security("is_granted('ROLE_USER') and user === ad.getAuthor()", message="vous ne pouvez pas supprimer un article qui n'est pas a vous !")
+     * @return Response
      */
-    public function delete(Ad $ad){
+    public function delete(Ad $ad): Response {
         $em = $this->getDoctrine()->getManager();
         $em->remove($ad);
         $em->flush();

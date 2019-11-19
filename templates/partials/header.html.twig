@@ -26,6 +26,7 @@
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{ path('account_index') }}">Profil</a>
                         <a class="dropdown-item" href="{{path('account_profile')}}">Modifer mon profil</a>
+                        <a class="dropdown-item" href="{{path('account_bookings')}}">Voir mais reservation</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{path("account_logout")}}">Deconnexions</a>
                     </div>
@@ -38,9 +39,9 @@
         </ul>
     </div>
 </nav>
-{% for messages in app.flashes %}
+{% for label, messages in app.flashes %}
     {% for message in  messages  %}
-        <div class="alert alert-success">
+        <div class="alert alert-{{label}}">
             {{ message | raw }}
         </div>
     {% endfor %}
