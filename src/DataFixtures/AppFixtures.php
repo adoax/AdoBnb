@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Ad;
 use App\Entity\Booking;
+use App\Entity\Comment;
 use App\Entity\Image;
 use App\Entity\Role;
 use App\Entity\User;
@@ -45,6 +46,7 @@ class AppFixtures extends Fixture
             ->addUserRole($adminRole);
         $manager->persist($adminUser);
 
+        $users = [];
         $genres = ['male', 'female'];
         //Gere les utilisateur
         for ($u = 1; $u < 10; $u++) {
@@ -71,6 +73,7 @@ class AppFixtures extends Fixture
         //Gere les annonces
         for ($i = 0; $i <= 30; $i++) {
             $ad = new Ad();
+            $user = $users[mt_rand(0, count($users) - 1)];
 
             $ad->setTitle($faker->sentence())
                 ->setCoverImage($faker->imageUrl(1000, 350))
@@ -78,7 +81,7 @@ class AppFixtures extends Fixture
                 ->setContent('<p>' . join('</p><p>', $faker->paragraphs(5)) . '</p>')
                 ->setPrice(mt_rand(40, 200))
                 ->setRooms(mt_rand(1, 6))
-                ->setAuthor($users[mt_rand(0, count($users) - 1)]);
+                ->setAuthor($user);
 
             ///ajout image pour chaque annonce
             for ($j = 1; $j <= mt_rand(2, 5); $j++) {
@@ -97,16 +100,29 @@ class AppFixtures extends Fixture
 
                 $startDate = $faker->dateTimeBetween('-3 month');
                 $duration = mt_rand(3, 10);
+                $booker = $users[mt_rand(0, count($users) - 1)];
 
                 $bookings->setCreatedAt($faker->dateTimeBetween('-6 month'))
                     ->setStartDate($startDate)
                     ->setEndDate((clone $startDate)->modify("+$duration days"))
                     ->setAmout($ad->getPrice() * $duration)
-                    ->setBooker($users[mt_rand(0, count($users) - 1)])
+                    ->setBooker($booker)
                     ->setAd($ad)
                     ->setComment($faker->paragraph());
 
                 $manager->persist($bookings);
+
+                //GEstion des commentaires
+                if (mt_rand(0, 1)) {
+                    $comment = new Comment();
+                    $comment->setContent($faker->paragraph())
+                        ->setRating(mt_rand(1, 5))
+                        ->setAuthor($booker)
+                        ->setAd($ad);
+
+
+                    $manager->persist($comment);
+                }
             }
 
 

@@ -2,88 +2,133 @@
 
 {% block body %}
 
-    <div class="ad-title" style="background-image: url({{ ad.coverImage }})">
-        <div class="container">
-            <h1>{{ad.title}}</h1>
+	<div class="ad-title" style="background-image: url({{ ad.coverImage }})">
+		<div class="container">
+			<h1>{{ad.title}}</h1>
 
-            <p>{{ad.intro}}</p>
+			<p>{{ad.intro}}</p>
 
-            <p class="h2">
-                <strong>{{ad.rooms}}
-                    chambres</strong>
-                pour
-                <strong>
-                    {{ad.price}}
-                    &euro;
-                </strong>
-            </p>
-            <a href="{{ path('booking_route', {"slug" : ad.slug}) }}" class="btn btn-primary">Reserver !</a>
-            {% if app.user and app.user.fullName == ad.author.fullName %}
-                <a href="{{ path('ads_edit', {'slug' : ad.slug}) }}" class="btn btn-secondary">Modifier</a>
-                <a href="{{ path('ads_delete', {'slug' : ad.slug}) }}" class="btn btn-danger" onclick="return confirm('Êtes vous sur de vouloir supprimer l\'annonce {{ ad.title }}  ? ')">Supprimer</a>
-            {% endif %}
+			<p class="h2">
+				<strong>{{ad.rooms}}
+					chambres</strong>
+				pour
+				<strong>
+					{{ad.price |number_format(2, ',', ' ') }}
+					&euro;
+				</strong>
+			</p>
+			<a href="{{ path('booking_route', {"slug" : ad.slug}) }}" class="btn btn-primary">Reserver !</a>
+			{% if app.user and app.user.fullName == ad.author.fullName %}
+				<a href="{{ path('ads_edit', {'slug' : ad.slug}) }}" class="btn btn-secondary">Modifier</a>
+				<a href="{{ path('ads_delete', {'slug' : ad.slug}) }}" class="btn btn-danger" onclick="return confirm('Êtes vous sur de vouloir supprimer l\'annonce {{ ad.title }}  ? ')">Supprimer</a>
+			{% endif %}
 
-        </div>
-    </div>
-    <div class="container">
-        <div class="row">
-            <div class="col-8 mb-3">
-                {{ad.content |raw }}
+		</div>
+	</div>
+	<div class="container">
+		<div class="row">
+			<div class="col-8 mb-3">
+				{{ad.content |raw }}
 
-                <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-                    <ol class="carousel-indicators">
-                        {% for img in ad.images %}
-                            <li data-target="#carouselExampleIndicators" data-slide-to="{{loop.index0}}" class="{% if loop.first%}active{% endif %}"></li>
-                        {% endfor %}
+				<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+					<ol class="carousel-indicators">
+						{% for img in ad.images %}
+							<li data-target="#carouselExampleIndicators" data-slide-to="{{loop.index0}}" class="{% if loop.first%}active{% endif %}"></li>
+						{% endfor %}
 
-                    </ol>
-                    {{ad.images | length}}
-                    <div class="carousel-inner">
-                        {% for img in ad.images %}
+					</ol>
+					{{ad.images | length}}
+					<div class="carousel-inner">
+						{% for img in ad.images %}
 
-                            <div class="carousel-item {% if loop.first %} active {% endif %}">
-                                <img src="{{img.url}}" class="d-block w-100" alt="...">
-                                <div class="carousel-caption d-none d-md-block">
-                                    <h5>{{ad.title}}</h5>
-                                    <p>{{img.caption}}</p>
-                                </div>
-                            </div>
+							<div class="carousel-item {% if loop.first %} active {% endif %}">
+								<img src="{{img.url}}" class="d-block w-100" alt="...">
+								<div class="carousel-caption d-none d-md-block">
+									<h5>{{ad.title}}</h5>
+									<p>{{img.caption}}</p>
+								</div>
+							</div>
 
-                        {% endfor %}
-                    </div>
-                    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Next</span>
-                    </a>
-                </div>
+						{% endfor %}
+					</div>
+					<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+						<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+						<span class="sr-only">Previous</span>
+					</a>
+					<a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+						<span class="carousel-control-next-icon" aria-hidden="true"></span>
+						<span class="sr-only">Next</span>
+					</a>
+				</div>
 
-            </div>
-            {% set author = ad.author %}
-            {% set urlUser = path('user_profil', {'slug' : author.slug}) %}
-            <div class="col">
-                <div class="row mb-3 align-items-center">
-                    <div class="col-3">
-                        <a href="{{ urlUser }}">
-                            <img src="{{author.picture}}" alt="phto de profil de {{ author.fullName }}" class="avatar avatar-meduim">
-                        </a>
-                    </div>
-                    <div class="col">
-                        <h3>
-                            <a href="{{ urlUser }}" class="text-black-50">{{ author.fullName }}</a>
 
-                            <span class="badge badge-primary">
-                                {{author.ads | length}}
-                                annonce{{ author.ads | length > 1 ? 's' : ''}}</span>
-                        </h3>
-                    </div>
-                </div>
-                {{author.description | raw }}
-            </div>
-        </div>
-    </div>
+				<hr>
+				{% set ratingPartials %}
+				{% include 'partials/rating.html.twig' with {'rating' : ad.AvgRatings, 'comment' : ad.comments} %}
+				{% endset %}
+
+				{% if ad.comments | length > 0 %}
+					<h2 class="mb-3">Commentaires de nos voyageurs :</h2>
+
+					<div class="alert alert-info" id="comment">
+						<h4 class="alert-heading text-center">
+							<div class="row align-items-center">
+								<div class="col">Note globale donné par nos voyageur
+
+								</div>
+								<div class="col">
+									{{ ratingPartials }}
+									<br>
+									<small>(Calculée sur
+										{{ ad.comments | length }}
+										avis)</small>
+
+								</div>
+							</div>
+						</h4>
+					</div>
+
+					{% for comment in ad.comments %}
+						<div class="bg-light rounded mb-3 py-3 px-3">
+							<strong>{{comment.author.fullName}}</strong>
+							a dit:
+							<blockquote>{{ comment.content }}</blockquote>
+							<strong>Note donnée:
+							</strong>
+							{{ ratingPartials }}
+						</div>
+					{% endfor %}
+				{% else %}
+					{{ ratingPartials }}
+					<p>Cettte annonce ne contient pas en de commentaires..</p>
+				{% endif %}
+
+
+			</div>
+			{% set author = ad.author %}
+			{% set urlUser = path('user_profil', {'slug' : author.slug}) %}
+			<div class="col">
+				<div class="row mb-3 align-items-center">
+					<div class="col-3">
+						<a href="{{ urlUser }}">
+							<img src="{{author.picture}}" alt="phto de profil de {{ author.fullName }}" class="avatar avatar-meduim">
+						</a>
+					</div>
+					<div class="col">
+						<h3>
+							<a href="{{ urlUser }}" class="text-black-50">{{ author.fullName }}</a>
+
+							<span class="badge badge-primary">
+								{{author.ads | length}}
+								annonce{{ author.ads | length > 1 ? 's' : ''}}</span>
+						</h3>
+					</div>
+				</div>
+				{{author.description | raw }}
+			</div>
+		</div>
+
+
+	</div>
 
 {% endblock %}

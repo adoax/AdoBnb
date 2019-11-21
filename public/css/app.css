@@ -14,6 +14,13 @@ div.ad-title p {
   text-shadow: 3px 3px 3px rgba(0, 0, 0, 0.5);
 }
 
+
+div.ad-title .btn {
+  margin-top: 1.5em;
+  font-size: 1.5em;
+  line-height: 1.5em;
+}
+
 div.carrousel-caption {
   text-shadow: 3px 3px 3px rgba(0, 0, 0, 0.5);
 }
@@ -34,7 +41,24 @@ div.carrousel-caption {
   max-width: 24px;
 }
 
+.avatar-micro {
+  max-height: 20px;
+  max-width: 20px;
+}
+
 .datepicker table tr td.disabled,
 .datepicker table tr td.disabled:hover {
   color: firebrick !important;
+}
+
+
+span.rating i {
+  color: goldenrod;
+}
+
+.alert a {
+  text-decoration: none;
+}
+.alert .btn {
+  color: white;
 }

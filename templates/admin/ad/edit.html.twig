@@ -1,0 +1,145 @@
+{% extends "admin/base.html.twig" %}
+
+{% block title %}Edition de
+	{{ ad.title }}
+{% endblock %}
+
+{% form_theme form _self %}
+
+{% block body %}
+
+
+	<h1 class="my-5">Edition de l'article (ADMIN)</h1>
+	<div class="container">
+		{{form_start(form)}}
+
+		<div class="row">
+			<div class="col">
+				<div class="card bg-light">
+					<div class="card-header">
+						<h4 class="card-title">Corriger l'annonce ?</h4>
+					</div>
+					<div class="card-body">
+						{{form_widget(form)}}
+						<button type="submit" class="btn btn-success">
+							<i class="fas fa-check"></i>
+							Enregistrer les modificationss
+						</button>
+					</div>
+				</div>
+			</div>
+			{{form_end(form)}}
+			<div class="col">
+				<div class="card bg-light">
+					<div class="card-header">
+						<h4 class="card-title">Les réservations</h4>
+					</div>
+					<div class="card-body">
+						<table class="table">
+							<thead>
+								<tr>
+									<th>Id</th>
+									<th>Voyageur</th>
+									<th>Date de Reservation</th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for booking in ad.bookings %}
+									<tr>
+										<td>{{ booking.id}}</td>
+										<td>{{ booking.booker.fullName}}</td>
+										<td>{{ booking.startDAte | date('d/m/Y') }}
+											<i class="fas fa-arrow-right"></i>
+											{{ booking.endDate | date('d/m/Y') }}</td>
+										<td>
+											<a href="#">
+												<i class="fas fa-pen"></i>
+											</a>
+										</td>
+									</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="card bg-light mt-5">
+					<div class="card-header">
+						<h4 class="card-title">Les commentaires</h4>
+					</div>
+					<div class="card-body">
+						<table class="table">
+							<thead>
+								<tr>
+									<th>Id</th>
+									<th>Voyageur</th>
+									<th>Note</th>
+									<th>Commentaire</th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for comment in ad.comments %}
+									<tr>
+										<td>{{ comment.id}}</td>
+										<td>{{ comment.author.fullName}}</td>
+										<td>{{ comment.rating }}</td>
+										<td>{{ comment.content }}</td>
+										<td>
+											<a href="#">
+												<i class="fas fa-pen"></i>
+											</a>
+										</td>
+									</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+{% endblock %}
+
+{% block _ad_images_widget %}
+	{{form_widget(form) }}
+{% endblock %}
+
+{% block _ad_images_entry_row %}
+	<div id="block_{{id}}">
+		{{form_widget(form)}}
+	</div>
+{% endblock %}
+
+
+{% block _ad_images_entry_widget %}
+	<div class="row align-items-center mb-3">
+		<div class="col-4">
+			{% if value %}
+				<img src="{{value.url }}" class="img-fluid">
+			{% endif %}
+
+		</div>
+		<div class="col-6">{{ form_row(form.caption) }}{{ form_row(form.url) }}</div>
+		<div class="col">
+			<button type="button" class="btn btn-danger" data-action="delete" data-target="#block_{{id}}">
+				<i class="fas fa-trash"></i>
+			</button>
+		</div>
+	</div>
+{% endblock %}
+
+
+{% block javascripts %}
+
+	<script>
+		$(document).ready(function () {
+$('button[data-action="delete"]').click(function () {
+const target = this.dataset.target;
+$(target).remove();
+});
+});
+	</script>
+
+{% endblock %}

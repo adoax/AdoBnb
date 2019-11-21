@@ -1,20 +1,43 @@
 {% extends "base.html.twig" %}
 
 {% block title %}Profile de
-    {{ app.user.lastName }}
-    {{app.user.firstName}}
+	{{ app.user.fullName }}
 {% endblock %}
 
 
 {% block body %}
-    <div class="container">
-        {{ form_start(form)}}
+	<div class="container">
+		<h1 class="my-5">Modification du profil</h1>
+		{{ form_start(form)}}
 
-        {{ form_widget(form) }}
+		<div class="row">
+			<div class="col">
+				<div class="alert alert-light">
+					<h2 class="alert-heading">Information générales</h2>
+					<hr>
+					{{form_row(form.firstName)}}
+					{{form_row(form.lastName)}}
+					{{form_row(form.email)}}
+					{{form_row(form.picture)}}
+				</div>
+			</div>
+			<div class="col">
+				<div class="alert alert-light">
+					<h2 class="alert-heading">Détails</h2>
+					<hr>
+					{{form_row(form.intro)}}
+					{{form_row(form.description)}}
+
+					<hr>
+
+					<p>Si vous avez terminé vos modification vous puvez les sauvegarder</p>
+					<button class="btn btn-primary" type="submit"><i class="fas fa-check"></i> Sauvegarder</button>
+				</div>
+			</div>
+		</div>
 
 
-        <button class="btn btn-primary" type="submit">Sauvegarder</button>
-        {{ form_end(form)}}
+		{{ form_end(form)}}
 
-    </div>
+	</div>
 {% endblock %}

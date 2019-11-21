@@ -1,15 +1,34 @@
- {{ form_start(form)}}
+{{ form_start(form)}}
 
-        <div class="row">
-            <div class="col col-md-5">{{ form_row(form.title)}}</div>
-            <div class="col col-md-5">{{ form_row(form.price) }}</div>
-            <div class="col col-md-5">{{ form_row(form.rooms) }}</div>
-            <div class="col col-md-5">{{ form_row(form.coverImage) }}</div>
-            <div class="col col-md-12">{{ form_row(form.content) }}</div>
-            <div class="col col-md-12">{{ form_row(form.intro) }}</div>
-            <div class="col col-md-12">{{ form_row(form.images) }}</div>
+<div class="row">
+	<div class="col">
+		<div class="alert alert-light">
+			<h2>Information générales</h2>
+			<hr>
+			<div class="col">{{ form_row(form.title)}}</div>
+			<div class="col">{{ form_row(form.price) }}</div>
+			<div class="col">{{ form_row(form.rooms) }}</div>
+		</div>
+		<div class="alert alert-light">
+			<h2>Détails de l'annonce</h2>
+			<hr>
+			<div class="col">{{ form_row(form.intro) }}</div>
+			<div class="col">{{ form_row(form.content) }}</div>
+		</div>
+	</div>
+	<div class="col">
+		<div class="alert alert-light">
+			<h2>Image de l'annonce</h2>
+			<hr>
+			<div class="col">{{ form_row(form.coverImage) }}</div>
 
-        </div>
-
-        <button class="btn btn-success" type="submit">Créer la nouvelle annonce</button>
-        {{ form_end(form) }}
+			<div class="col">{{ form_row(form.images) }}</div>
+		</div>
+	</div>
+</div>
+<div class="alert alert-success clearfix">
+<h2 class="alert-heading">Sauvegarder mon annonce</h2>
+	<p>Vous êtes sur le point de terminer la création de votre annonce</p>
+	<button class="btn btn-primary float-right" type="submit">Créer la nouvelle annonce <i class="fas fa-check"></i></button>
+</div>
+{{ form_end(form) }}

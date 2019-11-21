@@ -12,6 +12,7 @@ $('#add-image').click(function () { // Recupère le numéro des futurs champs qu
     handleDeleteButtons();
 
 });
+
 function handleDeleteButtons() {
     $('button[data-action="delete"]').click(function () {
         const target = this.dataset.target;

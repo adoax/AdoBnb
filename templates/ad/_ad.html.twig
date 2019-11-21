@@ -1,29 +1,29 @@
 {% set url = path('ads_show', {'slug' : ad.slug}) %}
-<div class="col-4">
-    <div class="card bg-light mb-3">
-        <div class="card-header text-center">
-            {{ad.rooms }}
-            chambres,
-            <strong>{{ad.price}}
-                &euro; /nuit</strong><br>
-            <small>Pas encore noté</small>
-        </div>
-        <a href="{{ url }}">
-            <img src="{{ad.coverImage}}" alt="image top appartement" style="height: 200px; width: 100%; display: block">
-        </a>
+<div class="col-md-4">
+	<div class="card bg-light mb-3">
+		<div class="card-header text-center">
+			{{ad.rooms }}
+			chambres,
+			<strong>{{ad.price |number_format(2, ',', ' ') }}
+				&euro; /nuit</strong><br>
+			<small>{% include 'partials/rating.html.twig' with {'rating' : ad.AvgRatings, 'comment' : ad.comments} %}</small>
+		</div>
+		<a href="{{ url }}">
+			<img src="{{ad.coverImage}}" alt="image top appartement" style="height: 200px; width: 100%; display: block">
+		</a>
 
 
-        <div class="card-body">
-            <h3 class="card-title">
-                <a href="{{ url }}" class="card-link">
-                    {{ad.title}}</a>
-            </h3>
-            <p class="card-text">
-                {{ad.intro}}</p>
-            <a href="{{ url }}" class="btn btn-secondary">En savoir plus</a>
-            {% if app.user and app.user.fullName == ad.author.fullName %}
-                <a href="{{ path('ads_edit', {'slug' : ad.slug}) }}" class="btn btn-secondary">Modifier</a>
-            {% endif %}
-        </div>
-    </div>
+		<div class="card-body">
+			<h3 class="card-title">
+				<a href="{{ url }}" class="card-link">
+					{{ad.title}}</a>
+			</h3>
+			<p class="card-text">
+				{{ad.intro}}</p>
+			<a href="{{ url }}" class="btn btn-primary float-right">En savoir plus</a>
+			{% if app.user and app.user.fullName == ad.author.fullName %}
+				<a href="{{ path('ads_edit', {'slug' : ad.slug}) }}" class="btn btn-secondary">Modifier</a>
+			{% endif %}
+		</div>
+	</div>
 </div>

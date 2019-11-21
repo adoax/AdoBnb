@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Booking;
 use App\Entity\Ad;
+use App\Entity\Comment;
 use App\Form\BookingType;
+use App\Form\CommentType;
 use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,7 +14,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-
 
 class BookingController extends AbstractController
 {
@@ -59,10 +60,27 @@ class BookingController extends AbstractController
      * @Security("is_granted('ROLE_USER') and user === booking.getBooker()", message="Cette reservation ne vous appartient pas !")
      * 
      */
-    public function show(Booking $booking)
+    public function show(Request $request, Booking $booking)
     {
+        $comment = new Comment();
+
+        $form = $this->createForm(CommentType::class, $comment);
+        $form->handleRequest($request);
+
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $comment->setAuthor($this->getUser());
+            $comment->setAd($booking->getAd());
+            $em->persist($comment);
+            $em->flush();
+
+            $this->addFlash('success', 'Votre commentaire à bien été pris en compte !');
+        }
+
         return $this->render("booking/show.html.twig", [
-            'booking' => $booking
+            'booking' => $booking,
+            'form' => $form->createView()
         ]);
     }
 }

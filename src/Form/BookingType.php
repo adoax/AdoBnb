@@ -28,14 +28,15 @@ class BookingType extends ApplicationType
                 'required' => false
             ]));
 
-            $builder->get('startDate')->addModelTransformer($this->transform);
-            $builder->get('endDate')->addModelTransformer($this->transform);
+        $builder->get('startDate')->addModelTransformer($this->transform);
+        $builder->get('endDate')->addModelTransformer($this->transform);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'data_class' => Booking::class,
+            "validation_groups" => ["Default", "front"]
         ]);
     }
 }
