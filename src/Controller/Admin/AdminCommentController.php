@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Admin;
 
 use App\Entity\Comment;
 use App\Form\AdminCommentType;
-use App\Repository\CommentRepository;
+use App\Service\Paginator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -12,12 +12,15 @@ use Symfony\Component\Routing\Annotation\Route;
 class AdminCommentController extends AbstractController
 {
     /**
-     * @Route("/admin/comments", name="admin_comment_index")
+     * @Route("/admin/comments/{page<\d+>?1}", name="admin_comment_index")
      */
-    public function index(CommentRepository $comment)
+    public function index($page, Paginator $paginator)
     {
+        $paginator->setEntityClass(Comment::class)
+            ->setCurrentPage($page);
+
         return $this->render('admin/comment/index.html.twig', [
-            'comments' => $comment->findAll(),
+            'pagination' => $paginator,
         ]);
     }
 
@@ -64,10 +67,8 @@ class AdminCommentController extends AbstractController
         $em->remove($comment);
         $em->flush();
 
-        $this->addFlash('success',"vous avez bien supprimer le commentaire de {$comment->getAuthor()->getFullName()}");
-        
-        return $this->redirectToRoute('admin_comment_index');
-    } 
-    
+        $this->addFlash('success', "vous avez bien supprimer le commentaire de {$comment->getAuthor()->getFullName()}");
 
+        return $this->redirectToRoute('admin_comment_index');
+    }
 }

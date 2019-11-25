@@ -83,7 +83,7 @@ class Ad
      * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="Ad", orphanRemoval=true)
      */
     private $comments;
-
+    
     public function __construct()
     {
         $this->images = new ArrayCollection();
