@@ -25,7 +25,7 @@ class AdController extends AbstractController
     public function index(AdRepository $ads): Response 
     {
         return $this->render('ad/index.html.twig', [
-            'ads' => $ads->findBy([], ['id' => 'DESC'], 5),
+            'ads' => $ads->findBy([], ['id' => 'DESC']),
         ]);
     }
 

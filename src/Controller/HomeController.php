@@ -4,6 +4,7 @@ namespace App\Controller;
 
 
 use App\Repository\AdRepository;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -15,15 +16,12 @@ class HomeController extends AbstractController
     /**
      * @Route("", name="indexpage")
      */
-    public function index()
+    public function index(AdRepository $ads, UserRepository $uses)
     {
-        $lsg = [
-            "tobby", "bybo", "yves", "magalie","naps"
-        ];
 
         return $this->render('index.html.twig', [
-            't' => $lsg
+            'ads' => $ads->findBestAds(3),
+            'users' => $uses->findBestUser()
         ]);
     }
-
 }

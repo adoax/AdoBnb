@@ -1,0 +1,143 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Dashboard
+{% endblock %}
+
+{% block body %}
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col">
+				<div class="card bg-primary text-white mb-3 text-center">
+					<div class="card-body">
+						<div class="row">
+							<div class="col-4">
+								<i class="fas fa-users fa-3x"></i>
+							</div>
+							<div class="col-8">
+								<h4 class="card-title">
+									{{stats.users}}
+									utilisateurs
+								</h4>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="col">
+				<div class="card text-white bg-success mb-3 text-center">
+					<div class="card-body">
+						<div class="row">
+							<div class="col-4">
+								<i class="fas fa-hotel fa-3x"></i>
+							</div>
+							<div class="col-8">
+								<h4 class="card-title">
+									{{stats.ads}}
+									annonces
+								</h4>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="col">
+				<div class="card text-white bg-warning mb-3 text-center">
+					<div class="card-body">
+						<div class="row">
+							<div class="col-4">
+								<i class="fas fa-folder fa-3x"></i>
+							</div>
+							<div class="col-8">
+								<h4 class="card-title">
+									{{stats.bookings}}
+									reservations
+								</h4>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="col">
+				<div class="card text-white bg-success mb-3 text-center">
+					<div class="card-body">
+						<div class="row">
+							<div class="col-4">
+								<i class="fas fa-folder fa-3x"></i>
+							</div>
+							<div class="col-8">
+								<h4 class="card-title">
+									{{stats.comments}}
+									avies
+								</h4>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<hr>
+		<div class="row">
+			<div class="col">
+				<div class="alert alert-success">
+					<h2 class="alert-heading"><i class="fas fa-arrow-up"></i> Les annonces populaire</h2>
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th>Annonce</th>
+								<th>Proprio</th>
+								<th class="text-center">Moyenne</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for ad in bestAds %}
+								<tr>
+									<td>{{ad.title }}</td>
+									<td>
+										<img src="{{ad.picture}}" alt="{{ ad.firstName }} {{ ad.lastName }}" class="avatar avatar-micro">
+										{{ ad.firstName }}
+										{{ ad.lastName }}
+									</td>
+									<td class="text-center">
+										<span class="badge badge-dark">{{ ad.note | number_format(1, ",", " ") }}</span>
+									</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="col">
+				<div class="alert alert-danger">
+					<h2 class="alert-heading"><i class="fas fa-arrow-down"></i> Les pires annonces</h2>
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th>Annonce</th>
+								<th>Proprio</th>
+								<th class="text-center">Moyenne</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for bad in worstAds %}
+								<tr>
+									<td>{{bad.title }}</td>
+									<td>
+										<img src="{{bad.picture}}" alt="{{ bad.firstName }} {{ bad.lastName }}" class="avatar avatar-micro">
+										{{ bad.firstName }}
+										{{ bad.lastName }}
+									</td>
+									<td class="text-center">
+										<span class="badge badge-dark">{{ bad.note | number_format(1, ",", " ")}}</span>
+									</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

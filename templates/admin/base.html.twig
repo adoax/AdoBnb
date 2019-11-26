@@ -3,9 +3,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-		<link rel="stylesheet" href="/css/bootstrap.min.css">
-		<script src="/js/fontAwesome.js" crossorigin="anonymous"></script>
-		<link rel="stylesheet" href="/css/app.css">
+		{{ encore_entry_link_tags('js/app') }}
 		<title>
 			{% block title %}Welcome!
 			{% endblock %}
@@ -14,13 +12,12 @@
 	</head>
 	<body>
 		{% include 'admin/partials/header.html.twig' %}
+		
 		{% block body %}{% endblock %}
 
 		{% include 'admin/partials/footer.html.twig' %}
 
-		<script src="/js/jquery-3.3.1.slim.min.js"></script>
-		<script src="/js/popper.min.js"></script>
-		<script src="/js/bootstrap.min.js"></script>
+		{{ encore_entry_script_tags('js/app') }}
 		{% block javascripts %}{% endblock %}
 	</body>
 </html>
